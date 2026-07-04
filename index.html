@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>20+ New Patient Appointments in 30 Days - Guaranteed</title>
-  <meta name="description" content="Done-for-you appointment booking for dental clinics. 20+ new patient appointments in 30 days or your money back. Book a discovery call.">
+  <title>20+ New Patient Appointments in 30 Days - Or You Don't Pay</title>
+  <meta name="description" content="Done-for-you appointment booking for dental clinics. 20+ new patient appointments in 30 days or you don't pay. Book a free discovery call.">
 
   <!-- Preconnect to Google Fonts + Loom CDN for faster loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -110,8 +110,11 @@
        ======================================== */
 
     .hero {
-      padding-top: clamp(4.5rem, 12vw, 8.5rem);
-      padding-bottom: var(--space-section);
+      /* Mobile-first: tighter top/bottom so the video's top edge
+         peeks above the fold on phones — a natural scroll cue
+         that lifts play rate. Scales back up on desktop. */
+      padding-top: clamp(2.75rem, 9vw, 8.5rem);
+      padding-bottom: clamp(2.25rem, 6vw, 7.5rem);
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -269,19 +272,62 @@
       margin-left: 4px;
     }
 
-    .vsl__poster-label {
+    /* Designed caption overlay — a bold hook anchored to the
+       bottom of the thumbnail. Gives visitors a concrete reason
+       to press play (the single biggest lever for play rate). */
+    .vsl__caption {
       position: absolute;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
+      bottom: 0;
+      left: 0;
+      right: 0;
       z-index: 2;
+      padding: clamp(3rem, 8vw, 4.5rem) clamp(1.25rem, 4vw, 2.75rem) clamp(1.25rem, 3.5vw, 2rem);
+      background: linear-gradient(
+        180deg,
+        rgba(23, 32, 29, 0) 0%,
+        rgba(23, 32, 29, 0.72) 100%
+      );
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      text-align: left;
+      pointer-events: none;
+    }
+
+    .vsl__caption-hook {
+      font-family: var(--font-display);
+      font-size: clamp(1.125rem, 3vw, 1.625rem);
+      font-weight: 560;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      color: #fffdf9;
+      max-width: 26ch;
+      text-wrap: balance;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+    }
+
+    .vsl__poster-label {
       font-family: var(--font-body);
       font-size: 0.8125rem;
       font-weight: 500;
-      color: rgba(255, 253, 249, 0.75);
-      letter-spacing: 0.04em;
-      white-space: nowrap;
+      color: rgba(255, 253, 249, 0.82);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Small live-dot accent before the label */
+    .vsl__poster-label::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: #e0b64f;
+      flex-shrink: 0;
     }
 
     /* Keyboard focus ring on facade */
@@ -405,7 +451,30 @@
     .cta {
       padding-bottom: clamp(5rem, 12vw, 9rem);
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* Mid-page CTA: sits directly under the video so
+       visitors convinced early have an exit ramp. Same
+       button, same destination — no new decisions. */
+    .cta--mid {
+      padding-top: clamp(1.75rem, 4vw, 2.5rem);
+      padding-bottom: 0;
+    }
+
+    /* Risk-reversal microcopy: re-closes the guarantee at
+       the exact moment of decision. */
+    .cta__reassurance {
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--color-text-muted);
+      text-align: center;
+      text-wrap: balance;
+      line-height: 1.5;
+      padding: 0 20px;
     }
 
     .cta__button {
@@ -502,8 +571,7 @@
       }
 
       .vsl__poster-label {
-        font-size: 0.75rem;
-        bottom: 14px;
+        font-size: 0.6875rem;
       }
 
       .cta__button {
@@ -531,7 +599,7 @@
     <section class="hero" aria-labelledby="headline">
       <span class="hero__accent" aria-hidden="true"></span>
       <h1 class="hero__headline" id="headline">
-        We'll book you 20+ new patient appointments in 30 days - or your money back.
+        We&apos;ll book you 20+ new patient appointments in 30 days &mdash; or you don&apos;t pay.
       </h1>
       <p class="hero__subline">
         Done-for-you patient acquisition for dental clinics. No&nbsp;contracts. No&nbsp;risk.
@@ -583,7 +651,10 @@
             <div class="vsl__play-btn">
               <div class="vsl__play-icon"></div>
             </div>
-            <span class="vsl__poster-label">Watch the 2-minute walkthrough</span>
+            <div class="vsl__caption">
+              <span class="vsl__caption-hook">How we book 20+ new patients in 30 days &mdash; on autopilot</span>
+              <span class="vsl__poster-label">Watch the 2-minute walkthrough</span>
+            </div>
           </div>
 
           <!-- IFRAME: Loom player (injected on click, not present on page load) -->
@@ -591,6 +662,27 @@
                loading ANY Loom resources until the visitor actively wants
                to watch. This keeps Lighthouse clean. -->
 
+        </div>
+
+        <!-- MID-PAGE CTA: identical button, identical destination.
+             Catches visitors convinced by the headline or the first
+             minute of the video — no scrolling required to convert. -->
+        <div class="cta cta--mid">
+          <a
+            class="cta__button"
+            id="cta-discovery-call-mid"
+            href="https://cal.com/raiyan-patel-jtbxvl/discovery-call"
+            target="_blank"
+            rel="noopener"
+            data-cta="mid"
+          >
+            Get My 20+ Patients &mdash; Book a Free Call
+            <svg class="cta__arrow" viewBox="0 0 16 16" aria-hidden="true">
+              <line x1="3" y1="8" x2="13" y2="8"/>
+              <polyline points="9,4 13,8 9,12"/>
+            </svg>
+          </a>
+          <p class="cta__reassurance">Free 15-minute call &middot; No obligation &middot; Covered by the 30-day guarantee</p>
         </div>
       </div>
     </section>
@@ -679,13 +771,15 @@
         href="https://cal.com/raiyan-patel-jtbxvl/discovery-call"
         target="_blank"
         rel="noopener"
+        data-cta="footer"
       >
-        Book Your Discovery Call
+        Get My 20+ Patients &mdash; Book a Free Call
         <svg class="cta__arrow" viewBox="0 0 16 16" aria-hidden="true">
           <line x1="3" y1="8" x2="13" y2="8"/>
           <polyline points="9,4 13,8 9,12"/>
         </svg>
       </a>
+      <p class="cta__reassurance">Free 15-minute call &middot; No obligation &middot; Covered by the 30-day guarantee</p>
     </section>
 
   </main>
@@ -717,10 +811,49 @@
         // Facade still works - dark bg + play button remain
       });
 
+      // --------------------------------------------
+      // TRACKING
+      // Framework-agnostic event dispatch. Fires into:
+      //   - window.dataLayer (GTM / GA4)
+      //   - window.fbq (Meta Pixel), if installed
+      //   - gtag(), if installed
+      // Just paste your GA4 / GTM / Meta Pixel snippet
+      // into <head> and these events flow automatically.
+      // --------------------------------------------
+      function track(eventName, params) {
+        params = params || {};
+        // GTM / GA4 via dataLayer
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push(Object.assign({ event: eventName }, params));
+        // gtag direct (if GA4 installed without GTM)
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', eventName, params);
+        }
+        // Meta Pixel (if installed)
+        if (typeof window.fbq === 'function') {
+          window.fbq('trackCustom', eventName, params);
+        }
+      }
+
+      // CTA clicks — distinguishes mid-page vs footer button
+      // so you can see where conversions come from.
+      var ctaButtons = document.querySelectorAll('[data-cta]');
+      for (var i = 0; i < ctaButtons.length; i++) {
+        ctaButtons[i].addEventListener('click', function () {
+          track('cta_click', {
+            cta_location: this.getAttribute('data-cta'),
+            cta_url: this.href
+          });
+        });
+      }
+
       // On click: hide facade, inject and autoplay Loom iframe
       function loadVideo() {
         if (iframeLoaded) return;
         iframeLoaded = true;
+
+        // Play rate — the #1 VSL metric
+        track('vsl_play', { video_id: '48587932aae242058b274a2558e124fb' });
 
         // Create the iframe dynamically so zero Loom resources
         // load until the visitor actively clicks play.

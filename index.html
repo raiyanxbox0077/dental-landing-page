@@ -10,25 +10,26 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.loom.com">
-  <!-- 
-    Typography choice: DM Sans for body (clean, geometric, clinical-adjacent, 
-    not Inter/Roboto), Instrument Sans for headline (tight, confident, 
-    slightly condensed feel). Both Google Fonts, both fast to load.
-    DM Sans has a "designed" quality without feeling trendy.
+  <!--
+    Typography: Fraunces (serif display) for the headline and quote —
+    editorial, confident, premium. DM Sans for everything else.
+    Two families total.
   -->
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,560&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
 
   <style>
     /* ========================================
        DESIGN SYSTEM
-       
-       Palette: Deep navy (#0f1b2d) as primary dark,
-       warm white (#f8f7f4) as page background,
-       teal (#1a7a6d) as singular accent.
-       
-       This reads as: confident consultancy. 
-       Not dental. Not SaaS. Not AI-gradient.
-       Clinical-adjacent without being clinical.
+
+       Warm paper background, deep ink text,
+       a single deep-teal accent. Editorial
+       consultancy — not SaaS, not template.
+
+       Colors (4 total):
+       - paper   #f7f5f0  page background
+       - surface #fffdf9  card background
+       - ink     #17201d  primary text / buttons
+       - teal    #14655a  singular accent
        ======================================== */
 
     *,
@@ -40,29 +41,33 @@
     }
 
     :root {
-      --color-bg: #f8f7f4;
-      --color-surface: #ffffff;
-      --color-text-primary: #0f1b2d;
-      --color-text-secondary: #4a5568;
-      --color-text-muted: #717f96;
-      --color-accent: #1a7a6d;
-      --color-accent-hover: #15665b;
-      --color-accent-subtle: rgba(26, 122, 109, 0.08);
-      --color-border: #e2e0db;
-      --color-video-bg: #0f1b2d;
+      --color-bg: #f7f5f0;
+      --color-surface: #fffdf9;
+      --color-ink: #17201d;
+      --color-text-secondary: #47524e;
+      --color-text-muted: #7b857f;
+      --color-accent: #14655a;
+      --color-border: #e5e1d8;
 
-      --font-display: 'Space Grotesk', sans-serif;
+      --font-display: 'Fraunces', Georgia, serif;
       --font-body: 'DM Sans', sans-serif;
 
-      --radius: 6px;
-      --max-width: 740px;
+      --radius: 8px;
 
-      /* Vertical rhythm — one scale, used everywhere */
-      --space-section: clamp(3.5rem, 7vw, 5.5rem);
+      /* One measure for the whole composition */
+      --max-width: 1080px;
+      /* Narrower measure for the video + testimonial,
+         so the headline reads widest and everything
+         below it feels nested inside the composition */
+      --content-width: 860px;
+
+      /* Single vertical rhythm unit */
+      --space-section: clamp(4rem, 9vw, 7.5rem);
     }
 
     html {
       font-size: 16px;
+      background-color: var(--color-bg);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
@@ -71,77 +76,88 @@
     body {
       font-family: var(--font-body);
       background-color: var(--color-bg);
-      color: var(--color-text-primary);
+      color: var(--color-ink);
       line-height: 1.6;
       overflow-x: hidden;
     }
 
     /* ========================================
-       LAYOUT - Single narrow column, generous
-       vertical breathing room. No nav. No footer.
-       Every pixel earns its place.
+       LAYOUT — centered composition with a wide,
+       intentional max-width. The headline uses
+       the full measure; video and testimonial sit
+       on a slightly narrower measure inside it.
        ======================================== */
 
     .page {
       width: 100%;
       max-width: var(--max-width);
       margin: 0 auto;
-      padding: 0 clamp(20px, 5vw, 48px);
+      padding: 0 clamp(20px, 5vw, 56px);
+    }
+
+    .content-measure {
+      width: 100%;
+      max-width: var(--content-width);
+      margin-left: auto;
+      margin-right: auto;
     }
 
     /* ========================================
        SECTION 1: HEADLINE
-       The single most dominant element.
-       Left-aligned. Tight tracking. 
-       A short teal accent bar above anchors 
-       the eye — the page's signature detail.
+       The single dominant element. Centered,
+       large serif, tight leading. Subline is
+       deliberately quiet beneath it.
        ======================================== */
 
     .hero {
-      padding-top: clamp(3.5rem, 10vw, 7rem);
+      padding-top: clamp(4.5rem, 12vw, 8.5rem);
       padding-bottom: var(--space-section);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    /* Signature detail: teal accent bar.
-       40px wide, 3px tall, sits above the headline.
-       Not decorative — it anchors the reading entry point
-       and signals "this page was designed, not generated." */
+    /* Signature detail: short accent rule above the
+       headline. Anchors the reading entry point. */
     .hero__accent {
       display: block;
-      width: 40px;
+      width: 44px;
       height: 3px;
       background-color: var(--color-accent);
       border-radius: 2px;
-      margin-bottom: 1.75rem;
+      margin-bottom: clamp(2rem, 4vw, 2.75rem);
     }
 
     .hero__headline {
       font-family: var(--font-display);
-      font-weight: 700;
-      font-size: clamp(2.15rem, 6vw, 3.4rem);
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-      color: var(--color-text-primary);
-      max-width: 620px;
+      font-weight: 560;
+      font-size: clamp(2.5rem, 6.5vw, 4.75rem);
+      line-height: 1.06;
+      letter-spacing: -0.025em;
+      color: var(--color-ink);
+      max-width: 19ch;
+      text-wrap: balance;
     }
 
     .hero__subline {
-      margin-top: 1.5rem;
+      margin-top: clamp(1.5rem, 3vw, 2.25rem);
       font-family: var(--font-body);
-      font-size: clamp(1rem, 2.5vw, 1.125rem);
+      font-size: clamp(1.0625rem, 2.5vw, 1.1875rem);
       font-weight: 400;
       line-height: 1.55;
       color: var(--color-text-secondary);
-      max-width: 520px;
+      max-width: 44ch;
+      text-wrap: pretty;
     }
 
     /* ========================================
        SECTION 2: VIDEO SALES LETTER (Loom Facade)
-       
+
        Facade pattern: thumbnail + play button on
        initial load. Zero third-party JS until click.
        On click: swap in Loom iframe with autoplay.
-       
+
        Aspect ratio from Loom oEmbed: 1728 x 1296
        = 4:3 ratio. Locked in CSS to prevent CLS.
        ======================================== */
@@ -155,13 +171,15 @@
       width: 100%;
       /* 4:3 aspect ratio from Loom oEmbed (1728x1296) */
       aspect-ratio: 4 / 3;
-      background-color: var(--color-video-bg);
-      border-radius: calc(var(--radius) + 2px);
+      background-color: var(--color-ink);
+      border-radius: calc(var(--radius) + 4px);
       overflow: hidden;
-      /* Soft elevation — makes the video feel inset into the page */
+      /* Layered, tinted elevation — the video reads as
+         the crafted centerpiece of the page */
       box-shadow:
-        0 1px 2px rgba(15, 27, 45, 0.06),
-        0 4px 16px rgba(15, 27, 45, 0.08);
+        0 1px 2px rgba(23, 32, 29, 0.08),
+        0 8px 24px rgba(23, 32, 29, 0.1),
+        0 24px 64px rgba(23, 32, 29, 0.12);
     }
 
     /* Fallback for browsers without aspect-ratio support */
@@ -189,7 +207,7 @@
       justify-content: center;
       cursor: pointer;
       z-index: 2;
-      background-color: var(--color-video-bg);
+      background-color: var(--color-ink);
     }
 
     .vsl__facade[hidden] {
@@ -210,8 +228,8 @@
       inset: 0;
       background: linear-gradient(
         180deg,
-        rgba(15, 27, 45, 0.1) 0%,
-        rgba(15, 27, 45, 0.35) 100%
+        rgba(23, 32, 29, 0.1) 0%,
+        rgba(23, 32, 29, 0.38) 100%
       );
       z-index: 1;
     }
@@ -219,13 +237,13 @@
     .vsl__play-btn {
       position: relative;
       z-index: 2;
-      width: 72px;
-      height: 72px;
+      width: 84px;
+      height: 84px;
       border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.18);
+      background-color: rgba(255, 253, 249, 0.16);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      border: 1.5px solid rgba(255, 253, 249, 0.32);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -234,8 +252,8 @@
 
     .vsl__facade:hover .vsl__play-btn,
     .vsl__facade:focus-visible .vsl__play-btn {
-      transform: scale(1.08);
-      background-color: rgba(255, 255, 255, 0.28);
+      transform: scale(1.06);
+      background-color: rgba(255, 253, 249, 0.26);
     }
 
     .vsl__facade:active .vsl__play-btn {
@@ -246,22 +264,22 @@
       width: 0;
       height: 0;
       border-style: solid;
-      border-width: 11px 0 11px 20px;
-      border-color: transparent transparent transparent #ffffff;
-      margin-left: 3px;
+      border-width: 12px 0 12px 22px;
+      border-color: transparent transparent transparent #fffdf9;
+      margin-left: 4px;
     }
 
     .vsl__poster-label {
       position: absolute;
-      bottom: 20px;
+      bottom: 24px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 2;
       font-family: var(--font-body);
       font-size: 0.8125rem;
       font-weight: 500;
-      color: rgba(255, 255, 255, 0.7);
-      letter-spacing: 0.02em;
+      color: rgba(255, 253, 249, 0.75);
+      letter-spacing: 0.04em;
       white-space: nowrap;
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     }
@@ -269,7 +287,7 @@
     /* Keyboard focus ring on facade */
     .vsl__facade:focus-visible {
       outline: 2px solid var(--color-accent);
-      outline-offset: 3px;
+      outline-offset: 4px;
     }
 
     /* The Loom iframe - hidden until facade is clicked */
@@ -286,10 +304,10 @@
 
     /* ========================================
        SECTION 3: TESTIMONIAL
-       Single card. Left-aligned. Understated.
-       Teal left-border accent ties it to the
-       page's accent color without being loud.
-       Real photo, real credentials, real weight.
+       One large, crafted card. The quote leads
+       in the display serif; the attribution sits
+       beneath a hairline rule with a genuinely
+       large photo. Generous internal spacing.
        ======================================== */
 
     .testimonial {
@@ -298,92 +316,94 @@
 
     .testimonial__card {
       position: relative;
+      background-color: var(--color-surface);
       border: 1px solid var(--color-border);
-      /* Left accent border — ties to the teal accent bar
-         in the hero. Creates visual continuity without
-         being heavy-handed about it. */
-      border-left: 4px solid var(--color-accent);
-      border-radius: var(--radius);
-      background-color: #fcfbf9;
-      padding: clamp(2.5rem, 6vw, 3.5rem) clamp(2.5rem, 6vw, 3.5rem) clamp(2.5rem, 6vw, 3.5rem) clamp(3rem, 7vw, 4.5rem);
+      border-radius: calc(var(--radius) + 4px);
+      padding: clamp(2.5rem, 7vw, 5rem) clamp(1.75rem, 6vw, 5rem);
+      box-shadow:
+        0 1px 2px rgba(23, 32, 29, 0.04),
+        0 12px 40px rgba(23, 32, 29, 0.06);
     }
 
-    /* Large decorative quotation mark — signals "this is a quote"
-       without being generic. Uses the accent color at low opacity
-       so it tints the card without competing with the text. */
-    .testimonial__card::before {
-      content: '\201C';
-      position: absolute;
-      top: clamp(0.75rem, 2vw, 1.25rem);
-      left: clamp(1.25rem, 3.5vw, 2rem);
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(5rem, 10vw, 7rem);
-      line-height: 1;
+    /* Large serif quotation mark — set in the accent color,
+       sitting above the quote as a typographic ornament
+       rather than a faded watermark. */
+    .testimonial__mark {
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 7vw, 5rem);
+      font-weight: 500;
+      line-height: 0.6;
       color: var(--color-accent);
-      opacity: 0.12;
-      pointer-events: none;
+      margin-bottom: clamp(1.25rem, 3vw, 1.75rem);
+      user-select: none;
     }
 
     .testimonial__quote {
-      position: relative;
-      font-family: var(--font-body);
-      font-size: clamp(1.125rem, 2.8vw, 1.35rem);
-      font-weight: 400;
-      font-style: italic;
-      line-height: 1.8;
-      color: var(--color-text-secondary);
+      font-family: var(--font-display);
+      font-size: clamp(1.375rem, 3.2vw, 1.875rem);
+      font-weight: 500;
+      font-style: normal;
+      line-height: 1.45;
+      letter-spacing: -0.01em;
+      color: var(--color-ink);
+      text-wrap: pretty;
+      max-width: 34ch;
     }
 
     .testimonial__attribution {
       display: flex;
       align-items: center;
-      gap: 24px;
-      margin-top: 2.25rem;
-      padding-top: 1.75rem;
+      gap: clamp(20px, 3vw, 28px);
+      margin-top: clamp(2rem, 5vw, 3rem);
+      padding-top: clamp(1.75rem, 4vw, 2.5rem);
       border-top: 1px solid var(--color-border);
     }
 
     .testimonial__photo {
-      width: 96px;
-      height: 96px;
+      width: clamp(88px, 12vw, 120px);
+      height: clamp(88px, 12vw, 120px);
       border-radius: 50%;
       object-fit: cover;
       flex-shrink: 0;
-      /* Teal ring — makes the avatar feel intentional, not an icon */
-      box-shadow: 0 0 0 4px var(--color-accent-subtle), 0 0 0 6px rgba(26, 122, 109, 0.10);
+      box-shadow:
+        0 0 0 3px var(--color-surface),
+        0 0 0 4.5px var(--color-border);
       background-color: var(--color-border);
     }
 
     .testimonial__meta {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
     }
 
     .testimonial__name {
-      font-family: var(--font-display);
-      font-size: 1rem;
+      font-family: var(--font-body);
+      font-size: 1.125rem;
       font-weight: 600;
-      color: var(--color-text-primary);
+      color: var(--color-ink);
       line-height: 1.3;
     }
 
     .testimonial__credential {
       font-family: var(--font-body);
-      font-size: 0.8125rem;
+      font-size: 0.875rem;
       font-weight: 400;
       color: var(--color-text-muted);
-      line-height: 1.5;
+      line-height: 1.55;
+      max-width: 48ch;
+      text-wrap: pretty;
     }
 
     /* ========================================
        SECTION 4: CTA BUTTON
-       Single button. Centered. Obvious.
-       No form. No extra fields. The last thing.
+       Single button. Centered. Ink-dark and
+       substantial — the full stop of the page.
        ======================================== */
 
     .cta {
-      padding-bottom: clamp(4rem, 10vw, 7rem);
+      padding-bottom: clamp(5rem, 12vw, 9rem);
       display: flex;
       justify-content: center;
     }
@@ -392,41 +412,44 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      font-family: var(--font-display);
-      font-size: 1.0625rem;
+      gap: 10px;
+      font-family: var(--font-body);
+      font-size: 1.125rem;
       font-weight: 600;
       letter-spacing: 0.005em;
-      color: #ffffff;
-      background-color: var(--color-accent);
+      color: var(--color-surface);
+      background-color: var(--color-ink);
       border: none;
-      border-radius: calc(var(--radius) + 2px);
-      padding: 17px 40px;
+      border-radius: 999px;
+      padding: 20px 48px;
       text-decoration: none;
       cursor: pointer;
       transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-      /* Subtle tinted shadow - not pure black */
-      box-shadow: 0 1px 3px rgba(26, 122, 109, 0.15), 0 4px 12px rgba(26, 122, 109, 0.1);
+      box-shadow:
+        0 1px 2px rgba(23, 32, 29, 0.16),
+        0 8px 24px rgba(23, 32, 29, 0.16);
     }
 
     .cta__button:hover {
-      background-color: var(--color-accent-hover);
-      box-shadow: 0 2px 6px rgba(26, 122, 109, 0.2), 0 8px 24px rgba(26, 122, 109, 0.15);
+      background-color: var(--color-accent);
+      box-shadow:
+        0 2px 6px rgba(20, 101, 90, 0.2),
+        0 12px 32px rgba(20, 101, 90, 0.22);
     }
 
     .cta__button:active {
-      transform: translateY(1px) scale(0.98);
+      transform: translateY(1px) scale(0.985);
     }
 
     /* Keyboard focus - visible, not just browser default */
     .cta__button:focus-visible {
       outline: 2px solid var(--color-accent);
-      outline-offset: 3px;
+      outline-offset: 4px;
     }
 
     .cta__arrow {
-      width: 16px;
-      height: 16px;
+      width: 17px;
+      height: 17px;
       stroke: currentColor;
       fill: none;
       stroke-width: 2;
@@ -436,13 +459,11 @@
     }
 
     .cta__button:hover .cta__arrow {
-      transform: translateX(2px);
+      transform: translateX(3px);
     }
 
     /* ========================================
        REDUCED MOTION
-       Respects user preference. Disables 
-       all transitions and transforms.
        ======================================== */
 
     @media (prefers-reduced-motion: reduce) {
@@ -457,19 +478,27 @@
 
     /* ========================================
        RESPONSIVE FINE-TUNING
-       The layout is fluid by default via clamp().
-       These are minor corrections, not breakpoints.
+       Fluid by default via clamp(). These are
+       corrections, not breakpoints.
        ======================================== */
+
+    @media (max-width: 560px) {
+      .testimonial__attribution {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+      }
+    }
 
     @media (max-width: 480px) {
       .vsl__play-btn {
-        width: 56px;
-        height: 56px;
+        width: 60px;
+        height: 60px;
       }
 
       .vsl__play-icon {
         border-width: 9px 0 9px 16px;
-        margin-left: 2px;
+        margin-left: 3px;
       }
 
       .vsl__poster-label {
@@ -479,7 +508,7 @@
 
       .cta__button {
         width: 100%;
-        padding: 16px 24px;
+        padding: 18px 28px;
       }
 
       /* Ensure iframe fills container on small screens */
@@ -496,7 +525,7 @@
 
     <!-- ============================================
          SECTION 1: HEADLINE
-         The guarantee IS the offer. One clean 
+         The guarantee IS the offer. One clean
          supporting line. Nothing else.
          ============================================ -->
     <section class="hero" aria-labelledby="headline">
@@ -511,126 +540,132 @@
 
     <!-- ============================================
          SECTION 2: VIDEO SALES LETTER (Loom Facade)
-         
+
          Facade pattern for zero third-party cost on
          initial load:
-         
+
          1. On page load: shows Loom's CDN thumbnail
             (a lightweight GIF) with a play button.
             No Loom JS, no iframe, no network cost.
-         
+
          2. On click: facade hides, Loom iframe loads
             with ?autoplay=1. Loom handles adaptive
             bitrate, edge delivery, and mobile compat.
-         
+
          3. If thumbnail fails: dark fallback with
             play icon (same as before).
-         
+
          Loom embed ID: 48587932aae242058b274a2558e124fb
          oEmbed dimensions: 1728 x 1296 (4:3)
          ============================================ -->
     <section class="vsl" aria-label="Video presentation">
-      <div class="vsl__container" id="vsl-container">
+      <div class="content-measure">
+        <div class="vsl__container" id="vsl-container">
 
-        <!-- FACADE: Loom thumbnail + play button (loaded on page load, cheap) -->
-        <div
-          class="vsl__facade"
-          id="vsl-facade"
-          role="button"
-          tabindex="0"
-          aria-label="Play video presentation"
-        >
-          <img
-            class="vsl__thumbnail"
-            id="vsl-thumbnail"
-            src="https://cdn.loom.com/sessions/thumbnails/48587932aae242058b274a2558e124fb-40cfa2e8f0331e5b.gif"
-            alt="Video walkthrough preview"
-            loading="eager"
-            width="1728"
-            height="1296"
+          <!-- FACADE: Loom thumbnail + play button (loaded on page load, cheap) -->
+          <div
+            class="vsl__facade"
+            id="vsl-facade"
+            role="button"
+            tabindex="0"
+            aria-label="Play video presentation"
           >
-          <div class="vsl__scrim"></div>
-          <div class="vsl__play-btn">
-            <div class="vsl__play-icon"></div>
+            <img
+              class="vsl__thumbnail"
+              id="vsl-thumbnail"
+              src="https://cdn.loom.com/sessions/thumbnails/48587932aae242058b274a2558e124fb-40cfa2e8f0331e5b.gif"
+              alt="Video walkthrough preview"
+              loading="eager"
+              width="1728"
+              height="1296"
+            >
+            <div class="vsl__scrim"></div>
+            <div class="vsl__play-btn">
+              <div class="vsl__play-icon"></div>
+            </div>
+            <span class="vsl__poster-label">Watch the 2-minute walkthrough</span>
           </div>
-          <span class="vsl__poster-label">Watch the 2-minute walkthrough</span>
+
+          <!-- IFRAME: Loom player (injected on click, not present on page load) -->
+          <!-- The iframe element is created by JS on first click to avoid
+               loading ANY Loom resources until the visitor actively wants
+               to watch. This keeps Lighthouse clean. -->
+
         </div>
-
-        <!-- IFRAME: Loom player (injected on click, not present on page load) -->
-        <!-- The iframe element is created by JS on first click to avoid
-             loading ANY Loom resources until the visitor actively wants
-             to watch. This keeps Lighthouse clean. -->
-
       </div>
     </section>
 
     <!-- ============================================
          SECTION 3: TESTIMONIAL
-         
-         Dr. Khushal Gangwani - real person, real 
-         credential, placeholder quote until the 
+
+         Dr. Khushal Gangwani - real person, real
+         credential, placeholder quote until the
          actual quote is provided.
          ============================================ -->
     <section class="testimonial" aria-label="Client testimonial">
-      <div class="testimonial__card">
-        <blockquote>
-          <p class="testimonial__quote">
-            <!-- 
-              PLACEHOLDER: Replace this with Dr. Khushal Gangwani's 
-              actual quote about results from the appointment-booking 
-              service once provided. Do not fabricate a quote.
-            -->
-            [Quote from Dr. Khushal Gangwani about results from this appointment-booking service - to be added once provided]
-          </p>
-        </blockquote>
-        <div class="testimonial__attribution">
-          <img
-            class="testimonial__photo"
-            src="dr-khushal.png"
-            alt="Dr. Khushal Gangwani"
-            width="96"
-            height="96"
-            loading="eager"
-          >
-          <div class="testimonial__meta">
-            <span class="testimonial__name">Dr. Khushal Gangwani</span>
-            <span class="testimonial__credential">Founder, OraMax Dental &amp; Maxillofacial Clinic — Juhu, Mumbai · Oral &amp; Maxillofacial Surgeon · 3,000+ patients treated</span>
-          </div>
-        </div>
-      </div>
-
-      <!--
-        =============================================
-        SECOND TESTIMONIAL - PLACEHOLDER
-        
-        Uncomment and fill in when a second 
-        testimonial is ready. Copy the structure 
-        from the card above.
-        
-        <div class="testimonial__card" style="margin-top: 1rem;">
+      <div class="content-measure">
+        <div class="testimonial__card">
           <blockquote>
+            <span class="testimonial__mark" aria-hidden="true">&ldquo;</span>
             <p class="testimonial__quote">
-              [Second testimonial quote here]
+              <!--
+                PLACEHOLDER: Replace this with Dr. Khushal Gangwani's
+                actual quote about results from the appointment-booking
+                service once provided. Do not fabricate a quote.
+              -->
+              [Quote from Dr. Khushal Gangwani about results from this appointment-booking service - to be added once provided]
             </p>
           </blockquote>
           <div class="testimonial__attribution">
             <img
               class="testimonial__photo"
-              src="second-doctor.png"
-              alt="[Doctor name]"
-              width="52"
-              height="52"
-              loading="lazy"
+              src="dr-khushal.png"
+              alt="Dr. Khushal Gangwani"
+              width="120"
+              height="120"
+              loading="eager"
             >
             <div class="testimonial__meta">
-              <span class="testimonial__name">[Doctor name]</span>
-              <span class="testimonial__credential">[Credentials]</span>
-              <span class="testimonial__credential">[Clinic name, Location]</span>
+              <span class="testimonial__name">Dr. Khushal Gangwani</span>
+              <span class="testimonial__credential">Founder, OraMax Dental &amp; Maxillofacial Clinic — Juhu, Mumbai · Oral &amp; Maxillofacial Surgeon · 3,000+ patients treated</span>
             </div>
           </div>
         </div>
-        =============================================
-      -->
+
+        <!--
+          =============================================
+          SECOND TESTIMONIAL - PLACEHOLDER
+
+          Uncomment and fill in when a second
+          testimonial is ready. Copy the structure
+          from the card above.
+
+          <div class="testimonial__card" style="margin-top: 1.5rem;">
+            <blockquote>
+              <span class="testimonial__mark" aria-hidden="true">&ldquo;</span>
+              <p class="testimonial__quote">
+                [Second testimonial quote here]
+              </p>
+            </blockquote>
+            <div class="testimonial__attribution">
+              <img
+                class="testimonial__photo"
+                src="second-doctor.png"
+                alt="[Doctor name]"
+                width="120"
+                height="120"
+                loading="lazy"
+              >
+              <div class="testimonial__meta">
+                <span class="testimonial__name">[Doctor name]</span>
+                <span class="testimonial__credential">[Credentials]</span>
+                <span class="testimonial__credential">[Clinic name, Location]</span>
+              </div>
+            </div>
+          </div>
+          =============================================
+        -->
+      </div>
     </section>
 
     <!-- ============================================
@@ -657,7 +692,7 @@
 
   <!-- ================================================
        JAVASCRIPT
-       
+
        Minimal. No frameworks. Three jobs:
        1. Facade click -> inject Loom iframe + autoplay
        2. Thumbnail error -> dark fallback
@@ -676,7 +711,7 @@
 
       // If the Loom CDN thumbnail fails, fall back to a dark
       // box with the play button still visible (the facade
-      // background-color is already --color-video-bg).
+      // background-color is already --color-ink).
       thumbnail.addEventListener('error', function () {
         thumbnail.style.display = 'none';
         // Facade still works - dark bg + play button remain

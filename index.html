@@ -47,6 +47,9 @@
       --color-text-muted: #7b857f;
       --color-accent: #1B4332;
       --color-border: #e5e1d8;
+      /* Barely-there green tints for accent continuity */
+      --color-accent-tint: rgba(27, 67, 50, 0.08);
+      --color-accent-border: rgba(27, 67, 50, 0.22);
 
       --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
       --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -308,7 +311,7 @@
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background-color: #e0b64f;
+      background-color: var(--color-accent);
       flex-shrink: 0;
     }
 
@@ -341,12 +344,18 @@
     .testimonial__card {
       position: relative;
       background-color: var(--color-surface);
-      border: 1px solid var(--color-border);
+      /* Green-tinted border ties the accent color into the card
+         without making it a colour block — barely visible, intentional. */
+      border: 1px solid var(--color-accent-border);
+      /* Thin left strip reinforces the single accent colour */
+      border-left: 3px solid var(--color-accent);
       border-radius: calc(var(--radius) + 4px);
       padding: clamp(2.5rem, 7vw, 5rem) clamp(1.75rem, 6vw, 5rem);
       box-shadow:
         0 1px 2px rgba(23, 32, 29, 0.04),
-        0 12px 40px rgba(23, 32, 29, 0.06);
+        0 12px 40px rgba(23, 32, 29, 0.06),
+        /* Subtle green ambient glow — barely perceptible */
+        0 0 0 4px var(--color-accent-tint);
     }
 
     /* Large serif quotation mark ornament */
@@ -446,15 +455,18 @@
       justify-content: center;
       gap: 10px;
       font-family: var(--font-body);
-      font-size: 1.125rem;
+      /* clamp keeps text on one line from 320px up — no overlap */
+      font-size: clamp(0.9375rem, 2.5vw, 1.125rem);
       font-weight: 700;
       letter-spacing: 0.01em;
+      /* Prevent text from wrapping or stacking at any width */
+      white-space: nowrap;
       color: var(--color-surface);
       /* Forest green — the one deliberate accent */
       background-color: var(--color-accent);
       border: none;
       border-radius: 999px;
-      padding: 20px 48px;
+      padding: 20px clamp(28px, 5vw, 48px);
       text-decoration: none;
       cursor: pointer;
       transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
@@ -546,8 +558,8 @@
       }
 
       .cta__button {
-        width: 100%;
-        padding: 18px 28px;
+        /* clamp() in the base rule handles mobile sizing — no override needed */
+        padding: 18px clamp(24px, 6vw, 36px);
       }
 
       .vsl__iframe.is-active {
@@ -708,13 +720,49 @@
       var thumbnail = document.getElementById('vsl-thumbnail');
       var iframeLoaded = false;
 
-      var LOOM_EMBED_URL = 'https://www.loom.com/embed/48587932aae242058b274a2558e124fb';
+      var VIDEO_ID = '48587932aae242058b274a2558e124fb';
+      var LOOM_EMBED_URL = 'https://www.loom.com/embed/' + VIDEO_ID;
 
-      // If the JPG thumbnail fails for any reason, fall back to
-      // a dark box with the play button still centered.
+      // ---------------------------------------------------
+      // THUMBNAIL — three-layer strategy:
+      //
+      // 1. Try the standard CDN JPG first (set as src already).
+      // 2. On error, fetch Loom's oEmbed endpoint which returns
+      //    the actual thumbnail_url for this video.
+      // 3. If oEmbed also fails (e.g. offline), hide the img
+      //    gracefully — the dark background + play button
+      //    still makes the section clearly clickable.
+      // ---------------------------------------------------
+      function loadThumbnailFromOembed() {
+        var oembed = 'https://www.loom.com/v1/oembed?url=' +
+          encodeURIComponent('https://www.loom.com/share/' + VIDEO_ID) +
+          '&maxwidth=1728&maxheight=1296';
+
+        fetch(oembed)
+          .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+          .then(function (data) {
+            if (data && data.thumbnail_url) {
+              thumbnail.src = data.thumbnail_url;
+              thumbnail.style.display = '';
+            } else {
+              thumbnail.style.display = 'none';
+            }
+          })
+          .catch(function () {
+            thumbnail.style.display = 'none';
+          });
+      }
+
       thumbnail.addEventListener('error', function () {
-        thumbnail.style.display = 'none';
+        // CDN JPG failed — try oEmbed
+        thumbnail.style.display = 'none'; // hide broken img while fetching
+        loadThumbnailFromOembed();
       });
+
+      // Also kick off an oEmbed fetch proactively on load — some
+      // private Loom videos return the CDN JPG url via oEmbed even
+      // when the direct CDN path returns a 403.
+      loadThumbnailFromOembed();
 
       // ----------------------------------------
       // TRACKING

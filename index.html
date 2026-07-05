@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>20+ New Patient Appointments in 30 Days - Or You Don't Pay</title>
-  <meta name="description" content="Done-for-you appointment booking for dental clinics. 20+ new patient appointments in 30 days or you don't pay. Book a free discovery call.">
+  <title>20+ New Patient Appointments in 30 Days - Guaranteed</title>
+  <meta name="description" content="Done-for-you appointment booking for dental clinics. 20+ new patient appointments in 30 days or your money back. Book a free discovery call.">
 
   <link rel="icon" type="image/png" href="favicon.png">
 
@@ -13,9 +13,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.loom.com">
   <!--
-    Typography: Fraunces (serif display) for the headline and quote —
-    editorial, confident, premium. DM Sans for everything else.
-    Two families total.
+    Typography: Fraunces (serif display) for the headline only.
+    DM Sans (sans-serif) for everything else — subline, quote,
+    attribution. Two families, clear contrast.
   -->
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,560&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
 
@@ -24,14 +24,13 @@
        DESIGN SYSTEM
 
        Warm paper background, deep ink text,
-       a single deep-teal accent. Editorial
-       consultancy — not SaaS, not template.
+       one deep forest-green accent.
 
        Colors (4 total):
        - paper   #f7f5f0  page background
        - surface #fffdf9  card background
-       - ink     #17201d  primary text / buttons
-       - teal    #14655a  singular accent
+       - ink     #17201d  primary text
+       - forest  #1B4332  singular accent (CTA + "20+" highlight)
        ======================================== */
 
     *,
@@ -48,7 +47,7 @@
       --color-ink: #17201d;
       --color-text-secondary: #47524e;
       --color-text-muted: #7b857f;
-      --color-accent: #14655a;
+      --color-accent: #1B4332;
       --color-border: #e5e1d8;
 
       --font-display: 'Fraunces', Georgia, serif;
@@ -56,11 +55,7 @@
 
       --radius: 8px;
 
-      /* One measure for the whole composition */
       --max-width: 1080px;
-      /* Narrower measure for the video + testimonial,
-         so the headline reads widest and everything
-         below it feels nested inside the composition */
       --content-width: 860px;
 
       /* Single vertical rhythm unit */
@@ -84,10 +79,7 @@
     }
 
     /* ========================================
-       LAYOUT — centered composition with a wide,
-       intentional max-width. The headline uses
-       the full measure; video and testimonial sit
-       on a slightly narrower measure inside it.
+       LAYOUT
        ======================================== */
 
     .page {
@@ -106,15 +98,11 @@
 
     /* ========================================
        SECTION 1: HEADLINE
-       The single dominant element. Centered,
-       large serif, tight leading. Subline is
-       deliberately quiet beneath it.
        ======================================== */
 
     .hero {
-      /* Mobile-first: tighter top/bottom so the video's top edge
-         peeks above the fold on phones — a natural scroll cue
-         that lifts play rate. Scales back up on desktop. */
+      /* Mobile-first: tighter padding so the video's top edge
+         peeks above the fold on phones — natural scroll cue. */
       padding-top: clamp(2.75rem, 9vw, 8.5rem);
       padding-bottom: clamp(2.25rem, 6vw, 7.5rem);
       text-align: center;
@@ -123,8 +111,7 @@
       align-items: center;
     }
 
-    /* Signature detail: short accent rule above the
-       headline. Anchors the reading entry point. */
+    /* Short accent rule above the headline */
     .hero__accent {
       display: block;
       width: 44px;
@@ -145,6 +132,13 @@
       text-wrap: balance;
     }
 
+    /* "20+" pops out of the headline in forest green —
+       the one number the dentist needs to see first. */
+    .hero__highlight {
+      color: var(--color-accent);
+      font-weight: 560;
+    }
+
     .hero__subline {
       margin-top: clamp(1.5rem, 3vw, 2.25rem);
       font-family: var(--font-body);
@@ -159,12 +153,12 @@
     /* ========================================
        SECTION 2: VIDEO SALES LETTER (Loom Facade)
 
-       Facade pattern: thumbnail + play button on
-       initial load. Zero third-party JS until click.
-       On click: swap in Loom iframe with autoplay.
+       Facade pattern: static Loom JPG thumbnail
+       + play button on load. Zero third-party JS
+       until click. On click: inject iframe + autoplay.
 
-       Aspect ratio from Loom oEmbed: 1728 x 1296
-       = 4:3 ratio. Locked in CSS to prevent CLS.
+       Loom embed ID: 48587932aae242058b274a2558e124fb
+       oEmbed dimensions: 1728 x 1296 (4:3)
        ======================================== */
 
     .vsl {
@@ -174,13 +168,10 @@
     .vsl__container {
       position: relative;
       width: 100%;
-      /* 4:3 aspect ratio from Loom oEmbed (1728x1296) */
       aspect-ratio: 4 / 3;
       background-color: var(--color-ink);
       border-radius: calc(var(--radius) + 4px);
       overflow: hidden;
-      /* Layered, tinted elevation — the video reads as
-         the crafted centerpiece of the page */
       box-shadow:
         0 1px 2px rgba(23, 32, 29, 0.08),
         0 8px 24px rgba(23, 32, 29, 0.1),
@@ -190,20 +181,17 @@
     /* Fallback for browsers without aspect-ratio support */
     @supports not (aspect-ratio: 4 / 3) {
       .vsl__container {
-        padding-bottom: 75%; /* 3/4 = 75% */
+        padding-bottom: 75%;
         height: 0;
       }
       .vsl__container .vsl__facade,
       .vsl__container .vsl__iframe {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
       }
     }
 
-    /* The clickable facade: thumbnail + play button */
     .vsl__facade {
       position: absolute;
       inset: 0;
@@ -215,9 +203,7 @@
       background-color: var(--color-ink);
     }
 
-    .vsl__facade[hidden] {
-      display: none;
-    }
+    .vsl__facade[hidden] { display: none; }
 
     .vsl__thumbnail {
       position: absolute;
@@ -227,7 +213,6 @@
       object-fit: cover;
     }
 
-    /* Dark scrim over thumbnail so play button stays visible */
     .vsl__scrim {
       position: absolute;
       inset: 0;
@@ -274,9 +259,7 @@
       margin-left: 4px;
     }
 
-    /* Designed caption overlay — a bold hook anchored to the
-       bottom of the thumbnail. Gives visitors a concrete reason
-       to press play (the single biggest lever for play rate). */
+    /* Caption overlay — bold hook anchored to thumbnail bottom */
     .vsl__caption {
       position: absolute;
       bottom: 0;
@@ -322,7 +305,6 @@
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     }
 
-    /* Small live-dot accent before the label */
     .vsl__poster-label::before {
       content: '';
       width: 7px;
@@ -332,13 +314,11 @@
       flex-shrink: 0;
     }
 
-    /* Keyboard focus ring on facade */
     .vsl__facade:focus-visible {
       outline: 2px solid var(--color-accent);
       outline-offset: 4px;
     }
 
-    /* The Loom iframe - hidden until facade is clicked */
     .vsl__iframe {
       display: none;
       width: 100%;
@@ -346,16 +326,14 @@
       border: none;
     }
 
-    .vsl__iframe.is-active {
-      display: block;
-    }
+    .vsl__iframe.is-active { display: block; }
 
     /* ========================================
        SECTION 3: TESTIMONIAL
-       One large, crafted card. The quote leads
-       in the display serif; the attribution sits
-       beneath a hairline rule with a genuinely
-       large photo. Generous internal spacing.
+
+       Large photo, prominent. Quote in DM Sans
+       for a modern readable feel. Attribution
+       sits beneath the photo in a stacked layout.
        ======================================== */
 
     .testimonial {
@@ -373,9 +351,7 @@
         0 12px 40px rgba(23, 32, 29, 0.06);
     }
 
-    /* Large serif quotation mark — set in the accent color,
-       sitting above the quote as a typographic ornament
-       rather than a faded watermark. */
+    /* Large serif quotation mark ornament */
     .testimonial__mark {
       display: block;
       font-family: var(--font-display);
@@ -387,36 +363,40 @@
       user-select: none;
     }
 
+    /* Quote now in DM Sans — modern + readable,
+       contrasts cleanly with the serif headline. */
     .testimonial__quote {
-      font-family: var(--font-display);
-      font-size: clamp(1.375rem, 3.2vw, 1.875rem);
-      font-weight: 500;
+      font-family: var(--font-body);
+      font-size: clamp(1.25rem, 2.8vw, 1.625rem);
+      font-weight: 400;
       font-style: normal;
-      line-height: 1.45;
-      letter-spacing: -0.01em;
+      line-height: 1.55;
       color: var(--color-ink);
       text-wrap: pretty;
-      max-width: 34ch;
+      max-width: 38ch;
     }
 
+    /* Attribution: photo top-left, large and prominent,
+       with name + credential stacked beneath it. */
     .testimonial__attribution {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: clamp(20px, 3vw, 28px);
-      margin-top: clamp(2rem, 5vw, 3rem);
+      margin-top: clamp(2.5rem, 6vw, 3.5rem);
       padding-top: clamp(1.75rem, 4vw, 2.5rem);
       border-top: 1px solid var(--color-border);
     }
 
     .testimonial__photo {
-      width: clamp(88px, 12vw, 120px);
-      height: clamp(88px, 12vw, 120px);
-      border-radius: 50%;
+      width: clamp(120px, 18vw, 180px);
+      height: clamp(120px, 18vw, 180px);
+      border-radius: calc(var(--radius) + 2px);
       object-fit: cover;
       flex-shrink: 0;
       box-shadow:
         0 0 0 3px var(--color-surface),
-        0 0 0 4.5px var(--color-border);
+        0 0 0 4.5px var(--color-border),
+        0 4px 16px rgba(23, 32, 29, 0.1);
       background-color: var(--color-border);
     }
 
@@ -424,6 +404,7 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
+      padding-top: 6px;
     }
 
     .testimonial__name {
@@ -434,6 +415,8 @@
       line-height: 1.3;
     }
 
+    /* Credential in DM Sans — consistent sans-serif
+       supporting type throughout the card. */
     .testimonial__credential {
       font-family: var(--font-body);
       font-size: 0.875rem;
@@ -446,37 +429,14 @@
 
     /* ========================================
        SECTION 4: CTA BUTTON
-       Single button. Centered. Ink-dark and
-       substantial — the full stop of the page.
+       Single button. Centered. Forest green —
+       the one deliberate accent on the page.
        ======================================== */
 
     .cta {
       padding-bottom: clamp(5rem, 12vw, 9rem);
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-    }
-
-    /* Mid-page CTA: sits directly under the video so
-       visitors convinced early have an exit ramp. Same
-       button, same destination — no new decisions. */
-    .cta--mid {
-      padding-top: clamp(1.75rem, 4vw, 2.5rem);
-      padding-bottom: 0;
-    }
-
-    /* Risk-reversal microcopy: re-closes the guarantee at
-       the exact moment of decision. */
-    .cta__reassurance {
-      font-family: var(--font-body);
-      font-size: 0.875rem;
-      font-weight: 400;
-      color: var(--color-text-muted);
-      text-align: center;
-      text-wrap: balance;
-      line-height: 1.5;
-      padding: 0 20px;
+      justify-content: center;
     }
 
     .cta__button {
@@ -489,7 +449,8 @@
       font-weight: 600;
       letter-spacing: 0.005em;
       color: var(--color-surface);
-      background-color: var(--color-ink);
+      /* Forest green — the one deliberate accent */
+      background-color: var(--color-accent);
       border: none;
       border-radius: 999px;
       padding: 20px 48px;
@@ -497,22 +458,21 @@
       cursor: pointer;
       transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
       box-shadow:
-        0 1px 2px rgba(23, 32, 29, 0.16),
-        0 8px 24px rgba(23, 32, 29, 0.16);
+        0 1px 2px rgba(27, 67, 50, 0.2),
+        0 8px 24px rgba(27, 67, 50, 0.24);
     }
 
     .cta__button:hover {
-      background-color: var(--color-accent);
+      background-color: #163828;
       box-shadow:
-        0 2px 6px rgba(20, 101, 90, 0.2),
-        0 12px 32px rgba(20, 101, 90, 0.22);
+        0 2px 6px rgba(27, 67, 50, 0.28),
+        0 12px 32px rgba(27, 67, 50, 0.3);
     }
 
     .cta__button:active {
       transform: translateY(1px) scale(0.985);
     }
 
-    /* Keyboard focus - visible, not just browser default */
     .cta__button:focus-visible {
       outline: 2px solid var(--color-accent);
       outline-offset: 4px;
@@ -548,16 +508,21 @@
     }
 
     /* ========================================
-       RESPONSIVE FINE-TUNING
-       Fluid by default via clamp(). These are
-       corrections, not breakpoints.
+       RESPONSIVE
        ======================================== */
 
     @media (max-width: 560px) {
       .testimonial__attribution {
         flex-direction: column;
         align-items: flex-start;
-        text-align: left;
+      }
+
+      .testimonial__photo {
+        /* Still large on mobile — just full-width */
+        width: 100%;
+        height: auto;
+        aspect-ratio: 3 / 2;
+        border-radius: var(--radius);
       }
     }
 
@@ -581,7 +546,6 @@
         padding: 18px 28px;
       }
 
-      /* Ensure iframe fills container on small screens */
       .vsl__iframe.is-active {
         position: absolute;
         inset: 0;
@@ -595,13 +559,11 @@
 
     <!-- ============================================
          SECTION 1: HEADLINE
-         The guarantee IS the offer. One clean
-         supporting line. Nothing else.
          ============================================ -->
     <section class="hero" aria-labelledby="headline">
       <span class="hero__accent" aria-hidden="true"></span>
       <h1 class="hero__headline" id="headline">
-        We&apos;ll book you 20+ new patient appointments in 30 days &mdash; or you don&apos;t pay.
+        We&apos;ll book you <span class="hero__highlight">20+</span> new patient appointments in 30 days &mdash; or your money back.
       </h1>
       <p class="hero__subline">
         Done-for-you patient acquisition for dental clinics. No&nbsp;contracts. No&nbsp;risk.
@@ -611,19 +573,8 @@
     <!-- ============================================
          SECTION 2: VIDEO SALES LETTER (Loom Facade)
 
-         Facade pattern for zero third-party cost on
-         initial load:
-
-         1. On page load: shows Loom's CDN thumbnail
-            (a lightweight GIF) with a play button.
-            No Loom JS, no iframe, no network cost.
-
-         2. On click: facade hides, Loom iframe loads
-            with ?autoplay=1. Loom handles adaptive
-            bitrate, edge delivery, and mobile compat.
-
-         3. If thumbnail fails: dark fallback with
-            play icon (same as before).
+         Static JPG thumbnail (not GIF) — always
+         resolves to the correct video's first frame.
 
          Loom embed ID: 48587932aae242058b274a2558e124fb
          oEmbed dimensions: 1728 x 1296 (4:3)
@@ -632,7 +583,6 @@
       <div class="content-measure">
         <div class="vsl__container" id="vsl-container">
 
-          <!-- FACADE: Loom thumbnail + play button (loaded on page load, cheap) -->
           <div
             class="vsl__facade"
             id="vsl-facade"
@@ -640,10 +590,16 @@
             tabindex="0"
             aria-label="Play video presentation"
           >
+            <!--
+              Static JPG thumbnail — Loom serves a reliable
+              first-frame JPG at this URL. The GIF variant
+              can intermittently resolve to unrelated content
+              from the same CDN bucket; the JPG does not.
+            -->
             <img
               class="vsl__thumbnail"
               id="vsl-thumbnail"
-              src="https://cdn.loom.com/sessions/thumbnails/48587932aae242058b274a2558e124fb-40cfa2e8f0331e5b.gif"
+              src="https://cdn.loom.com/sessions/thumbnails/48587932aae242058b274a2558e124fb-with-play.jpg"
               alt="Video walkthrough preview"
               loading="eager"
               width="1728"
@@ -659,42 +615,14 @@
             </div>
           </div>
 
-          <!-- IFRAME: Loom player (injected on click, not present on page load) -->
-          <!-- The iframe element is created by JS on first click to avoid
-               loading ANY Loom resources until the visitor actively wants
-               to watch. This keeps Lighthouse clean. -->
+          <!-- IFRAME injected on click only — zero Loom cost on page load -->
 
-        </div>
-
-        <!-- MID-PAGE CTA: identical button, identical destination.
-             Catches visitors convinced by the headline or the first
-             minute of the video — no scrolling required to convert. -->
-        <div class="cta cta--mid">
-          <a
-            class="cta__button"
-            id="cta-discovery-call-mid"
-            href="https://cal.com/raiyan-patel-discovery-call/discovery-call"
-            target="_blank"
-            rel="noopener"
-            data-cta="mid"
-          >
-            Get My 20+ Patients &mdash; Book a Free Call
-            <svg class="cta__arrow" viewBox="0 0 16 16" aria-hidden="true">
-              <line x1="3" y1="8" x2="13" y2="8"/>
-              <polyline points="9,4 13,8 9,12"/>
-            </svg>
-          </a>
-          <p class="cta__reassurance">Free 15-minute call &middot; No obligation &middot; Covered by the 30-day guarantee</p>
         </div>
       </div>
     </section>
 
     <!-- ============================================
          SECTION 3: TESTIMONIAL
-
-         Dr. Khushal Gangwani - real person, real
-         credential, placeholder quote until the
-         actual quote is provided.
          ============================================ -->
     <section class="testimonial" aria-label="Client testimonial">
       <div class="content-measure">
@@ -703,9 +631,8 @@
             <span class="testimonial__mark" aria-hidden="true">&ldquo;</span>
             <p class="testimonial__quote">
               <!--
-                PLACEHOLDER: Replace this with Dr. Khushal Gangwani's
-                actual quote about results from the appointment-booking
-                service once provided. Do not fabricate a quote.
+                PLACEHOLDER: Replace with Dr. Khushal Gangwani's
+                actual quote once provided. Do not fabricate.
               -->
               [Quote from Dr. Khushal Gangwani about results from this appointment-booking service - to be added once provided]
             </p>
@@ -715,8 +642,8 @@
               class="testimonial__photo"
               src="dr-khushal.png"
               alt="Dr. Khushal Gangwani"
-              width="120"
-              height="120"
+              width="180"
+              height="180"
               loading="eager"
             >
             <div class="testimonial__meta">
@@ -727,44 +654,27 @@
         </div>
 
         <!--
-          =============================================
-          SECOND TESTIMONIAL - PLACEHOLDER
-
-          Uncomment and fill in when a second
-          testimonial is ready. Copy the structure
-          from the card above.
+          SECOND TESTIMONIAL — uncomment when ready.
 
           <div class="testimonial__card" style="margin-top: 1.5rem;">
             <blockquote>
               <span class="testimonial__mark" aria-hidden="true">&ldquo;</span>
-              <p class="testimonial__quote">
-                [Second testimonial quote here]
-              </p>
+              <p class="testimonial__quote">[Quote here]</p>
             </blockquote>
             <div class="testimonial__attribution">
-              <img
-                class="testimonial__photo"
-                src="second-doctor.png"
-                alt="[Doctor name]"
-                width="120"
-                height="120"
-                loading="lazy"
-              >
+              <img class="testimonial__photo" src="second-doctor.png" alt="[Doctor name]" width="180" height="180" loading="lazy">
               <div class="testimonial__meta">
                 <span class="testimonial__name">[Doctor name]</span>
-                <span class="testimonial__credential">[Credentials]</span>
-                <span class="testimonial__credential">[Clinic name, Location]</span>
+                <span class="testimonial__credential">[Credentials · Clinic, Location]</span>
               </div>
             </div>
           </div>
-          =============================================
         -->
       </div>
     </section>
 
     <!-- ============================================
-         SECTION 4: CTA
-         One button. Direct link. The last element.
+         SECTION 4: CTA — single button, last element
          ============================================ -->
     <section class="cta" aria-label="Book a call">
       <a
@@ -775,70 +685,54 @@
         rel="noopener"
         data-cta="footer"
       >
-        Get My 20+ Patients &mdash; Book a Free Call
+        Book Your Discovery Call
         <svg class="cta__arrow" viewBox="0 0 16 16" aria-hidden="true">
           <line x1="3" y1="8" x2="13" y2="8"/>
           <polyline points="9,4 13,8 9,12"/>
         </svg>
       </a>
-      <p class="cta__reassurance">Free 15-minute call &middot; No obligation &middot; Covered by the 30-day guarantee</p>
     </section>
 
   </main>
 
-  <!-- ================================================
-       JAVASCRIPT
-
-       Minimal. No frameworks. Three jobs:
-       1. Facade click -> inject Loom iframe + autoplay
-       2. Thumbnail error -> dark fallback
-       3. Keyboard accessibility for facade
-       ================================================ -->
   <script>
     (function () {
       'use strict';
 
       var container = document.getElementById('vsl-container');
-      var facade = document.getElementById('vsl-facade');
+      var facade    = document.getElementById('vsl-facade');
       var thumbnail = document.getElementById('vsl-thumbnail');
       var iframeLoaded = false;
 
       var LOOM_EMBED_URL = 'https://www.loom.com/embed/48587932aae242058b274a2558e124fb';
 
-      // If the Loom CDN thumbnail fails, fall back to a dark
-      // box with the play button still visible (the facade
-      // background-color is already --color-ink).
+      // If the JPG thumbnail fails for any reason, fall back to
+      // a dark box with the play button still centered.
       thumbnail.addEventListener('error', function () {
         thumbnail.style.display = 'none';
-        // Facade still works - dark bg + play button remain
       });
 
-      // --------------------------------------------
+      // ----------------------------------------
       // TRACKING
-      // Framework-agnostic event dispatch. Fires into:
-      //   - window.dataLayer (GTM / GA4)
-      //   - window.fbq (Meta Pixel), if installed
-      //   - gtag(), if installed
-      // Just paste your GA4 / GTM / Meta Pixel snippet
-      // into <head> and these events flow automatically.
-      // --------------------------------------------
+      // Fires into window.dataLayer (GTM/GA4),
+      // gtag() (GA4 direct), and window.fbq
+      // (Meta Pixel) — whichever is present.
+      // Paste your tracking snippet into <head>
+      // and these events flow automatically.
+      // ----------------------------------------
       function track(eventName, params) {
         params = params || {};
-        // GTM / GA4 via dataLayer
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push(Object.assign({ event: eventName }, params));
-        // gtag direct (if GA4 installed without GTM)
         if (typeof window.gtag === 'function') {
           window.gtag('event', eventName, params);
         }
-        // Meta Pixel (if installed)
         if (typeof window.fbq === 'function') {
           window.fbq('trackCustom', eventName, params);
         }
       }
 
-      // CTA clicks — distinguishes mid-page vs footer button
-      // so you can see where conversions come from.
+      // CTA click tracking
       var ctaButtons = document.querySelectorAll('[data-cta]');
       for (var i = 0; i < ctaButtons.length; i++) {
         ctaButtons[i].addEventListener('click', function () {
@@ -849,16 +743,12 @@
         });
       }
 
-      // On click: hide facade, inject and autoplay Loom iframe
       function loadVideo() {
         if (iframeLoaded) return;
         iframeLoaded = true;
 
-        // Play rate — the #1 VSL metric
         track('vsl_play', { video_id: '48587932aae242058b274a2558e124fb' });
 
-        // Create the iframe dynamically so zero Loom resources
-        // load until the visitor actively clicks play.
         var iframe = document.createElement('iframe');
         iframe.className = 'vsl__iframe is-active';
         iframe.src = LOOM_EMBED_URL + '?autoplay=1&hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true';
@@ -866,20 +756,14 @@
         iframe.setAttribute('allowfullscreen', '');
         iframe.setAttribute('frameborder', '0');
         iframe.setAttribute('title', 'Video walkthrough');
-        // Sandbox for security: allow scripts (Loom player),
-        // same-origin (Loom needs it), presentation (fullscreen),
-        // autoplay. Block everything else.
         iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation allow-popups');
 
-        // Insert iframe into container, then hide facade
         container.appendChild(iframe);
         facade.hidden = true;
       }
 
-      // Click handler
       facade.addEventListener('click', loadVideo);
 
-      // Keyboard: Enter or Space to play
       facade.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
